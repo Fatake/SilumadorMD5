@@ -29,10 +29,11 @@ public class Servidor {
 			}
 		}
 	}
+
+	
 }
 
-
-private class GestorPeticion extends Thread {
+class GestorPeticion extends Thread {
 	BufferedReader entrada = null;
 	PrintWriter salida = null;
 	Socket socket;
@@ -45,7 +46,7 @@ private class GestorPeticion extends Thread {
 		try{
 			entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			salida = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-      
+	  
 			while (true){  
 				String str = entrada.readLine();
 				System.out.println("Recibo: " + str);
@@ -62,3 +63,4 @@ private class GestorPeticion extends Thread {
 		}
 	}
 }
+
