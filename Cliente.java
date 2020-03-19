@@ -1,7 +1,7 @@
 import java.net.*;
 import java.io.*;
 
-public class ClienteEco {
+public class Cliente {
 	public static void main(String[] args) {
 		//se obtiene el servidor
 		String servidor = args[0];
