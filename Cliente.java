@@ -7,15 +7,14 @@ public class ClienteEco {
 		String servidor = args[0];
 		//se obtiene el puerto de conexion
 		int puerto = Integer.parseInt(args[1]);
-		//String servidor = "localhost";
-		//int puerto = 9999;
+		System.out.println("Enviando peticion a: "+servidor+"\nPor el puerto: "+puerto);
 		try{
 			Socket socket = new Socket(servidor,puerto);
 			BufferedReader entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			PrintWriter salida = new PrintWriter( new OutputStreamWriter(socket.getOutputStream() ),true );
-			salida.println("prueba de eco");
+			salida.println("Prueba de envio de mensaje");
 			System.out.println(entrada.readLine());
-			salida.println("bye");
+			salida.println("Adios");
 			socket.close();
 		}
 		catch(UnknownHostException e){
