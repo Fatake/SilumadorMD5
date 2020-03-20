@@ -106,6 +106,7 @@ class GestorPeticion extends Thread {
 						System.out.println("Contraseña Correcta");
 						salida.println("cn");
 					}else{
+						System.out.println("Contraseña Incorrecta");
 						salida.println("nn");
 					}
 				}
