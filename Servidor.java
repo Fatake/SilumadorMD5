@@ -79,10 +79,14 @@ class GestorPeticion extends Thread {
 				String aux[] = str.split(",");
 				if (aux[0].startsWith("us")) {//Recibe Usuaro
 					indexUser = buscaUsuario(aux[1]);
-					user = usuarios.get(indexUser);
-					if (indexUser == -1) {
+
+					if (indexUser == -1) {//Si no se encuentra el usuario
 						System.out.println("Usuario no Encontrado");
-					}else{
+						salida.println("un,"+"null");
+						System.out.println("Cerrando Coneccion");
+						break;
+					}else{//Si lo encuentra
+						user = usuarios.get(indexUser);
 						Mezclador mes = new Mezclador();
 						System.out.println("Usuario Encontrado");
 						textoAleatorio = generaTexto();
@@ -98,6 +102,12 @@ class GestorPeticion extends Thread {
 					String md5ser = gen.getMD5(textoMezclado);
 					System.out.println("MD5Cli:\n"+md5cli+"\n");
 					System.out.println("MD5Ser:\n"+md5ser+"\n");
+					if (md5ser.equals(md5cli)) {
+						System.out.println("Contraseña Correcta");
+						salida.println("cn");
+					}else{
+						salida.println("nn");
+					}
 				}
 
 				if(str.equals("fn")){

@@ -61,6 +61,11 @@ public class Cliente {
 			//Recibe mensaje Aleatorio
 			mensajeAleatorio = entrada.readLine();
 			String str[] = mensajeAleatorio.split(",");
+			if (str[0].equals("un")) {
+				System.out.println("Usuario no registrado u.u");
+				socket.close();
+				System.exit(1);
+			}
 			mensajeAleatorio = str[1];
 
 			//Mezcla el mensaje
@@ -70,8 +75,16 @@ public class Cliente {
 			String md5cli = gen.getMD5(textoMezclado);
 			salida.println("md,"+md5cli);
 
+			String confirma = entrada.readLine();
+			if (confirma.equals("cn")) {
+				System.out.println("Conectado con Exito n.n");
+			}else{
+				System.out.println("Contraseña Incorrecta");
+			}
+
 			//Envia mensaje de Salida
 			salida.println("fn");
+
 			//Termina coneccion
 			socket.close();
 		}
