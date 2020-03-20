@@ -153,7 +153,7 @@ class GestorPeticion extends Thread {
 /*
  * Clase Lector Archivo
  */
-private class LectorArchivo {
+class LectorArchivo {
     private ArrayList<String> contenidoArchivo = new ArrayList<String>();
     public LectorArchivo() { };
     /*
