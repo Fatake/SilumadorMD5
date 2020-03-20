@@ -1,6 +1,8 @@
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.security.SecureRandom;
+import java.math.BigInteger;
 
 public class Servidor {  
 	private ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
@@ -76,7 +78,11 @@ class GestorPeticion extends Thread {
 						System.out.println("Usuario no Encontrado");
 					}else{
 						System.out.println("Usuario Encontrado");
+						String textoAleatorio = generaTexto();
+						System.out.println("Texto Generado:\n"+textoAleatorio+"\n");
 					}
+				}else if (aux[0].startsWith("ps")) {//RecibeContraseña
+					
 				}
 
 				System.out.println("-> " + str);
@@ -107,6 +113,12 @@ class GestorPeticion extends Thread {
 			}
 		}
 		return posicion;
+	}
+
+	private String generaTexto(){
+		SecureRandom random = new SecureRandom();
+ 		String text = new BigInteger(586, random).toString(32);
+ 		return text;
 	}
 }
 
