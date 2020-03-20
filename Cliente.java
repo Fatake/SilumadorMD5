@@ -40,6 +40,8 @@ public class Cliente {
 		int puerto = Integer.parseInt(args[1]);
 		Cliente aux = new Cliente();
 		String mensajeAleatorio;
+		Mezclador mes = new Mezclador();
+		String textoMezclado;
 
 		System.out.println("Conectando a: "+servidor+"\nPuerto: "+puerto+"\n");
 		try{
@@ -53,8 +55,15 @@ public class Cliente {
 			salida.println("us,"+user.getName());
 			
 			//Recibe mensaje Aleatorio
+			
 			mensajeAleatorio = entrada.readLine();
+			String str[] = mensajeAleatorio.split(",");
+			mensajeAleatorio = str[1];
 
+			textoMezclado = mes.mezcla(mensajeAleatorio, user.getPass());
+
+			System.out.println("Mensaje aleatorio: "+mensajeAleatorio+"\n");
+			System.out.println("Mesclado: "+textoMezclado);
 			//Envia mensaje de Salida
 			salida.println("fn");
 			//Termina coneccion

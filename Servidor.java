@@ -64,13 +64,13 @@ class GestorPeticion extends Thread {
 		System.out.print("\033[H\033[2J");  
 		System.out.flush();
 		System.out.println("\n\n<----------------->"); 
+		Usuario user;
+		int indexUser = 0;
+		String textoAleatorio, textoMezclado;
 		try{
 			entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			salida = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 			while (true){
-				int indexUser = 0;
-				String textoAleatorio;
-
 				//Lee lo que se reciba en el Socket
 				String str = entrada.readLine();
 				//Separa lo que se lee
@@ -78,16 +78,20 @@ class GestorPeticion extends Thread {
 				if (aux[0].startsWith("us")) {//Recibe Usuaro
 					System.out.println("Usuario "+aux[1]+" Recibido\nBuscando...");
 					indexUser = buscaUsuario(aux[1]);
+					user = usuarios.get(indexUser);
 					if (indexUser == -1) {
 						System.out.println("Usuario no Encontrado");
 					}else{
+						Mezclador mes = new Mezclador();
 						System.out.println("Usuario Encontrado");
 						textoAleatorio = generaTexto();
 						System.out.println("Texto Generado:\n"+textoAleatorio+"\n");
 						//Envia texto Aleatorio
 						salida.println("ms,"+textoAleatorio);
+						textoMezclado = mes.mezcla(textoAleatorio, user.getPass());
+						System.out.println("Texto Mezclado:\n"+textoMezclado+"\n");
 					}
-				}else if (aux[0].startsWith("mc")) {//Recibe mensaje mesclado
+				}else if (aux[0].startsWith("md")) {//Recibe md
 					
 				}
 
