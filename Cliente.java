@@ -3,15 +3,28 @@ import java.util.Scanner;
 import java.io.*;
 
 public class Cliente {
-	private int menu(){
+	public static void clearScreen() {  
+		System.out.print("\033[H\033[2J");  
+		System.out.flush();  
+	}  
+	private Usuario menu(){
+		Scanner scaner = new Scanner(System.in);
 		System.out.println("Menu Login\nIngrese una opcion");
 		System.out.println("1)Iniciar Session");
 		System.out.println("2)Salir\n<------------------------->");
-		while (True) {
-			Integer opcion = Integer.parseInt((new Scanner(System.in)).nextLine());
+		while (true) {
+			Integer opcion = scaner.nextInt();
 			switch (opcion) {
 				case 1:
-					return 1;
+					clearScreen();
+					System.out.print("Ingrese usuario\n->");
+					String nombre = scaner.nextLine();
+					nombre = scaner.nextLine();
+					System.out.print("Ingrese Contraseña\n->");
+					String password = scaner.nextLine();
+					scaner.close();
+					Usuario user = new Usuario(nombre, password);
+					return user;
 				case 0:
 					System.out.println("Adios u.u");
 					System.exit(1);
@@ -28,15 +41,17 @@ public class Cliente {
 		Cliente aux = new Cliente();
 		System.out.println("Enviando peticion a: "+servidor+"\nPor el puerto: "+puerto);
 		try{
+			Usuario user = aux.menu();
 			//Abre el socket
 			Socket socket = new Socket(servidor,puerto);
 			BufferedReader entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			PrintWriter salida = new PrintWriter( new OutputStreamWriter(socket.getOutputStream() ),true );
 			
-			int opcion = aux.menu();
-			salida.println("Prueba de envio de mensaje");
+			
+			salida.println("us,"+user.getName());
+			salida.println("ps,"+user.getPass());
 			System.out.println(entrada.readLine());
-			salida.println("Adios");
+			salida.println("fn");
 
 			socket.close();
 		}
