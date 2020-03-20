@@ -66,7 +66,8 @@ class GestorPeticion extends Thread {
 		System.out.println("\n\n<----------------->"); 
 		Usuario user;
 		int indexUser = 0;
-		String textoAleatorio, textoMezclado;
+		String textoAleatorio = "";
+		String textoMezclado  = "";
 		try{
 			entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			salida = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
@@ -92,7 +93,11 @@ class GestorPeticion extends Thread {
 						System.out.println("Texto Mezclado:\n"+textoMezclado+"\n");
 					}
 				}else if (aux[0].startsWith("md")) {//Recibe md
-					
+					MD5 gen = new MD5();
+					String md5cli = aux[1];
+					String md5ser = gen.getMD5(textoMezclado);
+					System.out.println("MD5Cli:\n"+md5cli+"\n");
+					System.out.println("MD5Ser:\n"+md5ser+"\n");
 				}
 
 				System.out.println("-> " + str);
