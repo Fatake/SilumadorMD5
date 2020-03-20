@@ -69,7 +69,11 @@ class GestorPeticion extends Thread {
 			salida = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 			while (true){
 				int indexUser = 0;
+				String textoAleatorio;
+
+				//Lee lo que se reciba en el Socket
 				String str = entrada.readLine();
+				//Separa lo que se lee
 				String aux[] = str.split(",");
 				if (aux[0].startsWith("us")) {//Recibe Usuaro
 					System.out.println("Usuario "+aux[1]+" Recibido\nBuscando...");
@@ -78,15 +82,16 @@ class GestorPeticion extends Thread {
 						System.out.println("Usuario no Encontrado");
 					}else{
 						System.out.println("Usuario Encontrado");
-						String textoAleatorio = generaTexto();
+						textoAleatorio = generaTexto();
 						System.out.println("Texto Generado:\n"+textoAleatorio+"\n");
+						//Envia texto Aleatorio
+						salida.println("ms,"+textoAleatorio);
 					}
-				}else if (aux[0].startsWith("ps")) {//RecibeContraseña
+				}else if (aux[0].startsWith("mc")) {//Recibe mensaje mesclado
 					
 				}
 
 				System.out.println("-> " + str);
-				salida.println(str);
 				if(str.equals("fn")){
 					System.out.println("Cerrando Coneccion");
 					break;

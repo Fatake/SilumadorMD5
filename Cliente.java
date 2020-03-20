@@ -9,7 +9,7 @@ public class Cliente {
 	}  
 	private Usuario menu(){
 		Scanner scaner = new Scanner(System.in);
-		System.out.println("Menu Login\nIngrese una opcion");
+		System.out.println("\tMenu Login\nIngrese una opcion");
 		System.out.println("1)Iniciar Session");
 		System.out.println("2)Salir\n<------------------------->");
 		while (true) {
@@ -39,20 +39,25 @@ public class Cliente {
 		//se obtiene el puerto de conexion
 		int puerto = Integer.parseInt(args[1]);
 		Cliente aux = new Cliente();
-		System.out.println("Enviando peticion a: "+servidor+"\nPor el puerto: "+puerto);
+		String mensajeAleatorio;
+
+		System.out.println("Conectando a: "+servidor+"\nPuerto: "+puerto+"\n");
 		try{
 			Usuario user = aux.menu();
 			//Abre el socket
 			Socket socket = new Socket(servidor,puerto);
 			BufferedReader entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			PrintWriter salida = new PrintWriter( new OutputStreamWriter(socket.getOutputStream() ),true );
-			
-			
+			clearScreen();
+			//Envia Usuario
 			salida.println("us,"+user.getName());
-			salida.println("ps,"+user.getPass());
-			System.out.println(entrada.readLine());
-			salida.println("fn");
+			
+			//Recibe mensaje Aleatorio
+			mensajeAleatorio = entrada.readLine();
 
+			//Envia mensaje de Salida
+			salida.println("fn");
+			//Termina coneccion
 			socket.close();
 		}
 		catch(UnknownHostException e){
