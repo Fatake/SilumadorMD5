@@ -74,10 +74,10 @@ class GestorPeticion extends Thread {
 			while (true){
 				//Lee lo que se reciba en el Socket
 				String str = entrada.readLine();
+				System.out.println("-> " + str);
 				//Separa lo que se lee
 				String aux[] = str.split(",");
 				if (aux[0].startsWith("us")) {//Recibe Usuaro
-					System.out.println("Usuario "+aux[1]+" Recibido\nBuscando...");
 					indexUser = buscaUsuario(aux[1]);
 					user = usuarios.get(indexUser);
 					if (indexUser == -1) {
@@ -100,7 +100,6 @@ class GestorPeticion extends Thread {
 					System.out.println("MD5Ser:\n"+md5ser+"\n");
 				}
 
-				System.out.println("-> " + str);
 				if(str.equals("fn")){
 					System.out.println("Cerrando Coneccion");
 					break;

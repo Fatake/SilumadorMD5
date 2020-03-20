@@ -41,29 +41,35 @@ public class Cliente {
 		Cliente aux = new Cliente();
 		String mensajeAleatorio;
 		Mezclador mes = new Mezclador();
-		String textoMezclado;
+		MD5 gen = new MD5();
+		String textoMezclado = "";
 
 		System.out.println("Conectando a: "+servidor+"\nPuerto: "+puerto+"\n");
 		try{
 			Usuario user = aux.menu();
 			//Abre el socket
 			Socket socket = new Socket(servidor,puerto);
+
+			//Habilita Escuchadores de entrada y salida
 			BufferedReader entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			PrintWriter salida = new PrintWriter( new OutputStreamWriter(socket.getOutputStream() ),true );
+			
 			clearScreen();
 			//Envia Usuario
 			salida.println("us,"+user.getName());
 			
 			//Recibe mensaje Aleatorio
-			
 			mensajeAleatorio = entrada.readLine();
 			String str[] = mensajeAleatorio.split(",");
 			mensajeAleatorio = str[1];
 
+			//Mezcla el mensaje
 			textoMezclado = mes.mezcla(mensajeAleatorio, user.getPass());
 
-			System.out.println("Mensaje aleatorio: "+mensajeAleatorio+"\n");
-			System.out.println("Mesclado: "+textoMezclado);
+			//Genera MD5 y envia
+			String md5cli = gen.getMD5(textoMezclado);
+			salida.println("md,"+md5cli);
+
 			//Envia mensaje de Salida
 			salida.println("fn");
 			//Termina coneccion
