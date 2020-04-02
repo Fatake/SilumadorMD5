@@ -1,6 +1,9 @@
 import java.net.*;
 import java.util.Scanner;
 import java.io.*;
+import java.util.Base64;
+import java.util.UUID;
+import java.io.UnsupportedEncodingException;
 
 public class Cliente {
 	public static void clearScreen() {  

@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.Base64;
+import java.util.UUID;
+import java.io.UnsupportedEncodingException;
 
 public class Servidor {  
 	private ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
@@ -92,7 +95,7 @@ class GestorPeticion extends Thread {
 						break;
 					}else{//Si lo encuentra
 						Mezclador mes = new Mezclador();
-						user = usuarios.get(indexUser);s
+						user = usuarios.get(indexUser);
 						System.out.println("Usuario Encontrado");
 
 						//Gerenando texto Aleatorio
