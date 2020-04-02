@@ -15,17 +15,17 @@ public class MD5{
     }
 
     public byte[] calculaMD5(byte[] message){
-        int tamMnensajeBytes = message.length;
-        int numBlocks = ((tamMnensajeBytes + 8) >>> 6) + 1;
+        int tamMensajeBytes = message.length;
+        int numBlocks = ((tamMensajeBytes + 8) >>> 6) + 1;
         int tamTotal = numBlocks << 6;
-        byte[] rellenoBytes = new byte[tamTotal - tamMnensajeBytes];
+        byte[] rellenoBytes = new byte[tamTotal - tamMensajeBytes];
 
         rellenoBytes[0] = (byte) 0x80;
-        long messageLenBits = (long) tamMnensajeBytes << 3;
+        long tamMensajeBits = (long) tamMensajeBytes << 3;
 
         for (int i = 0; i < 8; i++){
-            rellenoBytes[rellenoBytes.length - 8 + i] = (byte) messageLenBits;
-            messageLenBits >>>= 8;
+            rellenoBytes[rellenoBytes.length - 8 + i] = (byte) tamMensajeBits;
+            tamMensajeBits >>>= 8;
         }
 
         int a = INIT_A;
@@ -37,8 +37,8 @@ public class MD5{
         for (int i = 0; i < numBlocks; i++){
             int index = i << 6;
             for (int j = 0; j < 64; j++, index++)
-                buffer[j >>> 2] = ((int) ((index < tamMnensajeBytes) ? message[index]
-                        : rellenoBytes[index - tamMnensajeBytes]) << 24)
+                buffer[j >>> 2] = ((int) ((index < tamMensajeBytes) ? message[index]
+                        : rellenoBytes[index - tamMensajeBytes]) << 24)
                         | (buffer[j >>> 2] >>> 8);
 
             int originalA = a;
