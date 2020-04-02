@@ -77,7 +77,7 @@ class GestorPeticion extends Thread {
 			salida = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 			while (true){
 				//Lee lo que se reciba en el Socket
-				String str = entrada.readLine();
+				String str = desencriptar(entrada.readLine());
 				System.out.println("-> " + str);
 				//Separa lo que se lee
 				String aux[] = str.split(",");
@@ -86,7 +86,8 @@ class GestorPeticion extends Thread {
 
 					if (indexUser == -1) {//Si no se encuentra el usuario
 						System.out.println("Usuario no Encontrado");
-						salida.println("un,"+"null");
+						salida.println(encriptar("un,"+"null"));
+
 						System.out.println("Cerrando Coneccion");
 						break;
 					}else{//Si lo encuentra
@@ -97,7 +98,7 @@ class GestorPeticion extends Thread {
 						//Gerenando texto Aleatorio
 						textoAleatorio = generaTexto();
 						System.out.println("Texto Generado:\n"+textoAleatorio+"\n");
-						salida.println("ms,"+textoAleatorio);
+						salida.println(encriptar("ms,"+textoAleatorio));
 
 						//Texto aletorio mezclado
 						textoMezclado = mes.mezcla(textoAleatorio, user.getPass());
@@ -112,10 +113,10 @@ class GestorPeticion extends Thread {
 					
 					if (md5ser.equals(md5cli)) {
 						System.out.println("Contraseña Correcta");
-						salida.println("cn");
+						salida.println(encriptar("cn"));
 					}else{
 						System.out.println("Contraseña Incorrecta");
-						salida.println("nn");
+						salida.println(encriptar("nn"));
 					}
 				}
 
@@ -133,6 +134,14 @@ class GestorPeticion extends Thread {
 			System.exit(-1);
 		}
 	}
+	private String encriptar(String s) throws UnsupportedEncodingException{
+        return Base64.getEncoder().encodeToString(s.getBytes("utf-8"));
+    }
+    
+    private String desencriptar(String s) throws UnsupportedEncodingException{
+        byte[] decode = Base64.getDecoder().decode(s.getBytes());
+        return new String(decode, "utf-8");
+    }
 
 	private int buscaUsuario(String userName){
 		int posicion = -1;

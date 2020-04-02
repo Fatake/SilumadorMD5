@@ -33,6 +33,14 @@ public class Cliente {
 			}
 		}
 	}
+	private static String encriptar(String s) throws UnsupportedEncodingException{
+        return Base64.getEncoder().encodeToString(s.getBytes("utf-8"));
+    }
+    
+    private static String desencriptar(String s) throws UnsupportedEncodingException{
+        byte[] decode = Base64.getDecoder().decode(s.getBytes());
+        return new String(decode, "utf-8");
+    }
 	public static void main(String[] args) {
 		//se obtiene el servidor
 		String servidor = args[0];
@@ -56,10 +64,10 @@ public class Cliente {
 			
 			clearScreen();
 			//Envia Usuario
-			salida.println("us,"+user.getName());
+			salida.println(encriptar("us,"+user.getName()));
 			
 			//Recibe mensaje Aleatorio
-			mensajeAleatorio = entrada.readLine();
+			mensajeAleatorio = desencriptar(entrada.readLine());
 			String str[] = mensajeAleatorio.split(",");
 			if (str[0].equals("un")) {
 				System.out.println("Usuario no registrado u.u");
@@ -73,9 +81,9 @@ public class Cliente {
 
 			//Genera MD5 y envia
 			String md5cli = gen.getMD5(textoMezclado);
-			salida.println("md,"+md5cli);
+			salida.println(encriptar("md,"+md5cli));
 
-			String confirma = entrada.readLine();
+			String confirma = desencriptar(entrada.readLine());
 			if (confirma.equals("cn")) {
 				System.out.println("Conectado con Exito n.n");
 			}else{
@@ -83,7 +91,7 @@ public class Cliente {
 			}
 
 			//Envia mensaje de Salida
-			salida.println("fn");
+			salida.println(encriptar("fn"));
 
 			//Termina coneccion
 			socket.close();
