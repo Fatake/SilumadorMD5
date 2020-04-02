@@ -15,16 +15,16 @@ public class MD5{
     }
 
     public byte[] calculaMD5(byte[] message){
-        int messageLenBytes = message.length;
-        int numBlocks = ((messageLenBytes + 8) >>> 6) + 1;
-        int totalLen = numBlocks << 6;
-        byte[] paddingBytes = new byte[totalLen - messageLenBytes];
+        int tamMnensajeBytes = message.length;
+        int numBlocks = ((tamMnensajeBytes + 8) >>> 6) + 1;
+        int tamTotal = numBlocks << 6;
+        byte[] rellenoBytes = new byte[tamTotal - tamMnensajeBytes];
 
-        paddingBytes[0] = (byte) 0x80;
-        long messageLenBits = (long) messageLenBytes << 3;
+        rellenoBytes[0] = (byte) 0x80;
+        long messageLenBits = (long) tamMnensajeBytes << 3;
 
         for (int i = 0; i < 8; i++){
-            paddingBytes[paddingBytes.length - 8 + i] = (byte) messageLenBits;
+            rellenoBytes[rellenoBytes.length - 8 + i] = (byte) messageLenBits;
             messageLenBits >>>= 8;
         }
 
@@ -37,8 +37,8 @@ public class MD5{
         for (int i = 0; i < numBlocks; i++){
             int index = i << 6;
             for (int j = 0; j < 64; j++, index++)
-                buffer[j >>> 2] = ((int) ((index < messageLenBytes) ? message[index]
-                        : paddingBytes[index - messageLenBytes]) << 24)
+                buffer[j >>> 2] = ((int) ((index < tamMnensajeBytes) ? message[index]
+                        : rellenoBytes[index - tamMnensajeBytes]) << 24)
                         | (buffer[j >>> 2] >>> 8);
 
             int originalA = a;
@@ -104,6 +104,7 @@ public class MD5{
         }
         return md5;
     }
+
     public static String toHexString(byte[] b){
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < b.length; i++){
