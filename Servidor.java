@@ -88,7 +88,15 @@ class GestorPeticion extends Thread {
 	PrintWriter salida = null;
 	Socket socket;
 
+	// Constructor sin nombre
 	public GestorPeticion(Socket socket,ArrayList<Usuario> usuarios){
+		this.socket = socket;
+		this.usuarios = usuarios;
+	}
+
+	// Constructor con nombre
+	public GestorPeticion(String nombre, Socket socket,ArrayList<Usuario> usuarios){
+		super(nombre);
 		this.socket = socket;
 		this.usuarios = usuarios;
 	}
@@ -146,6 +154,14 @@ class GestorPeticion extends Thread {
 					if (md5ser.equals(md5cli)) {
 						System.out.println("Contraseña Correcta");
 						salida.println(encriptar("cn"));
+						// Si la contraseña es correcta
+						// SE cambia el nombre del hilo al del usuario
+						try {
+							this.setName(user.getName());
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
 					}else{
 						System.out.println("Contraseña Incorrecta");
 						salida.println(encriptar("nn"));
