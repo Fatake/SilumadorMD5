@@ -12,7 +12,12 @@ import java.util.UUID;
 import java.io.UnsupportedEncodingException;
 
 public class Servidor {  
+	//Lista de Usuarios
 	private ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+
+	/*
+	 * Main
+	 */
 	public static void main(String[] args) {
 		Servidor aux = new Servidor();
 		ServerSocket socketServer = null;
@@ -56,6 +61,10 @@ public class Servidor {
 	}
 }
 
+/*
+ * Clase Gestor de peticiones
+ * Se crea un hilo por cada enlace nuevo
+ */
 class GestorPeticion extends Thread {
 	private ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 	BufferedReader entrada = null;
@@ -67,6 +76,9 @@ class GestorPeticion extends Thread {
 		this.usuarios = usuarios;
 	}
 
+	/*
+	 * Instruccion de ejecucion
+	 */
 	public void run(){
 		System.out.print("\033[H\033[2J");  
 		System.out.flush();
@@ -137,15 +149,25 @@ class GestorPeticion extends Thread {
 			System.exit(-1);
 		}
 	}
+	
+	/*
+	 * Encriptador
+	 */
 	private String encriptar(String s) throws UnsupportedEncodingException{
         return Base64.getEncoder().encodeToString(s.getBytes("utf-8"));
     }
-    
+	
+	/*
+	 * Desincriptador
+	 */
     private String desencriptar(String s) throws UnsupportedEncodingException{
         byte[] decode = Base64.getDecoder().decode(s.getBytes());
         return new String(decode, "utf-8");
     }
 
+	/*
+	 * Busca ujsuarios en Base de Datos
+	 */
 	private int buscaUsuario(String userName){
 		int posicion = -1;
 		for (int i = 0; i < usuarios.size(); i++) {
@@ -159,6 +181,9 @@ class GestorPeticion extends Thread {
 		return posicion;
 	}
 
+	/*
+	 * Generador de texto aleatorio
+	 */
 	private String generaTexto(){
 		SecureRandom random = new SecureRandom();
  		String text = new BigInteger(586, random).toString(32);
